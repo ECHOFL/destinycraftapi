@@ -1,0 +1,19 @@
+# Database settings
+database:
+  type: MYSQL # SQLITE, MYSQL
+  mysql:
+    host: localhost
+    port: 3306
+    database: destinycraft
+    username: admin
+    password: mtheo
+    ssl: false
+  
+# Module settings
+modules:
+  # Enable or disable modules
+  economy: true
+  
+# Global settings
+settings:
+  prefix: '&8[&bDestinyCraft&8] &r'
