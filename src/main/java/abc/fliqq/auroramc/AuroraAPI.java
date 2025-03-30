@@ -5,6 +5,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import abc.fliqq.auroramc.core.ConfigManager;
 import abc.fliqq.auroramc.core.ModuleManager;
 import abc.fliqq.auroramc.core.PluginModule;
+import abc.fliqq.auroramc.core.services.DatabaseConnector;
 import abc.fliqq.auroramc.core.services.MessageService;
 import lombok.Getter;
 
@@ -13,7 +14,7 @@ public class AuroraAPI extends JavaPlugin {
     @Getter private ModuleManager moduleManager;
     @Getter private MessageService messageService;
     @Getter private ConfigManager configManager;
-
+    @Getter private DatabaseConnector databaseConnector;
 
     @Override
     public void onEnable() {
@@ -32,6 +33,8 @@ public class AuroraAPI extends JavaPlugin {
         //initialize modules
         initializeModules();
 
+        //initialize database connector
+        databaseConnector = new DatabaseConnector(configManager.getMainConfig());
 
         getLogger().info("AuroraAPI a été activé");
     }

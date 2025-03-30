@@ -127,7 +127,17 @@ public class ConfigManager {
                 return null;
             }
         }
-        return null;
+        FileConfiguration config = YamlConfiguration.loadConfiguration(configFile);
+        configs.put(modulePath, config);
+        configFiles.put(modulePath, configFile);
+        plugin.getLogger().info("Fichier de configuration chargé avec succès: " + modulePath);
+        return config;
+    }
+
+    public void reloadAllConfig(){
+        for (String name : configs.keySet()){
+            reloadConfig(name);
+        }
     }
     
 }

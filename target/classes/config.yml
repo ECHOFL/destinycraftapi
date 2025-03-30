@@ -1,4 +1,4 @@
-# Database settings
+# Database 
 database:
   type: MYSQL # SQLITE, MYSQL
   mysql:
@@ -9,12 +9,12 @@ database:
     password: mtheo
     ssl: false
   
-# Module settings
+# Modules
 modules:
   # Enable or disable modules
   customcrafts: true
   economy: false
   
-# Global settings
+# Global
 settings:
   prefix: '&8[&bAurora&6MC&8] &r'
