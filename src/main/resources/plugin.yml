@@ -2,7 +2,7 @@ name: AuroraAPI
 main: abc.fliqq.auroramc.AuroraAPI
 version: '1.0'
 author: Fliqq
-api-version: '1.21'
+api-version: '1.21.4'
 description: AuroraMC API
 
 
