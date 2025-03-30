@@ -1,5 +1,7 @@
 package abc.fliqq.auroramc;
 
+import java.util.ArrayList;
+
 import org.bukkit.plugin.java.JavaPlugin;
 
 import abc.fliqq.auroramc.core.ConfigManager;
@@ -7,6 +9,8 @@ import abc.fliqq.auroramc.core.ModuleManager;
 import abc.fliqq.auroramc.core.PluginModule;
 import abc.fliqq.auroramc.core.services.DatabaseConnector;
 import abc.fliqq.auroramc.core.services.MessageService;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraftModule;
+import abc.fliqq.auroramc.modules.duel.DuelModule;
 import lombok.Getter;
 
 public class AuroraAPI extends JavaPlugin {
@@ -30,11 +34,14 @@ public class AuroraAPI extends JavaPlugin {
         //initialize module manager
         moduleManager = new ModuleManager();
 
+        //register modules
+        registerModules();
+        
         //initialize modules
         initializeModules();
 
         //initialize database connector
-        databaseConnector = new DatabaseConnector(configManager.getMainConfig());
+        //databaseConnector = new DatabaseConnector(configManager.getMainConfig());
 
         getLogger().info("AuroraAPI a été activé");
     }
@@ -43,8 +50,12 @@ public class AuroraAPI extends JavaPlugin {
         getLogger().info("AuroraAPI désactivé");
     }
     
+    private void registerModules(){
+        moduleManager.registerModule(new DuelModule(this));
+        moduleManager.registerModule(new CustomCraftModule(this));
+    }
     private void initializeModules() {
-        for(PluginModule module : moduleManager.getModules()) {
+        for (PluginModule module : new ArrayList<>(moduleManager.getModules())) {
             module.onInit();
         }
     }

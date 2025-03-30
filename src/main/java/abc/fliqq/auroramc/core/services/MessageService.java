@@ -103,7 +103,7 @@ public class MessageService {
 
     }
 
-    public String colorize(String text){
+    public static String colorize(String text){
         if (text == null) {
             return "";
         }

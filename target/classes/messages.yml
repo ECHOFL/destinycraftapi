@@ -1,0 +1,42 @@
+
+# Fichier de configuration des messages pour AuroraAPI
+# Veuillez vous assurer que ce fichier est encodé en UTF-8 sans BOM
+
+general:
+  # Préfixe par défaut utilisé par l'ensemble du plugin
+  prefix: "&7[&6AuroraAPI&7] &r"
+  # Messages globaux
+  welcome: "&aBienvenue sur AuroraAPI !"
+  error: "&cUne erreur est survenue. Vérifiez la console pour plus d'informations."
+  reload: "&eConfiguration rechargée avec succès."
+
+chat:
+  # Préfixe spécifique au module Chat
+  prefix: "&b[Chat]&r "
+  # Messages relatifs au module Chat
+  mute: "&cLe chat est désactivé."
+  unmute: "&aLe chat est activé."
+  # Autres messages liés au chat
+  message_sent: "&aVotre message a été envoyé !"
+
+commands:
+  # Préfixe spécifique aux commandes
+  prefix: "&e[Cmd]&r "
+  # Messages relatifs aux commandes
+  no_permission: "&cVous n'avez pas la permission d'exécuter cette commande."
+  executed: "&aCommande exécutée avec succès."
+  usage: "&eUsage: /commande <argument>"
+
+database:
+  # Préfixe spécifique aux opérations de base de données
+  prefix: "&d[DB]&r "
+  # Messages relatifs à la base de données
+  connection_success: "&aConnexion à la base de données réussie."
+  connection_error: "&cErreur de connexion à la base de données."
+
+# D'autres modules peuvent être ajoutés ici en respectant la même structure :
+#
+# moduleName:
+#   prefix: "prefix_de_module"
+#   message_key: "message correspondant"
+#   ...

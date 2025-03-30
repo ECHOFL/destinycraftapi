@@ -1,1 +1,10 @@
+abc/fliqq/auroramc/modules/customcraft/VillagerListener.class
+abc/fliqq/auroramc/core/services/MessageService.class
+abc/fliqq/auroramc/core/services/DatabaseConnector.class
+abc/fliqq/auroramc/modules/duel/DuelModule.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftModule.class
 abc/fliqq/auroramc/AuroraAPI.class
+abc/fliqq/auroramc/core/util/LoggerUtil.class
+abc/fliqq/auroramc/core/ConfigManager.class
+abc/fliqq/auroramc/core/ModuleManager.class
+abc/fliqq/auroramc/core/PluginModule.class

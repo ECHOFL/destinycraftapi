@@ -4,7 +4,7 @@ database:
   mysql:
     host: localhost
     port: 3306
-    database: destinycraft
+    database: auroramc
     username: admin
     password: mtheo
     ssl: false
@@ -12,7 +12,8 @@ database:
 # Modules
 modules:
   # Enable or disable modules
-  customcrafts: true
+  customcraft: true
+  duel: false
   economy: false
   
 # Global
