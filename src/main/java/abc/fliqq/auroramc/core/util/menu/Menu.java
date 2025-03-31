@@ -28,13 +28,15 @@ public class Menu {
     protected final void setTitle(String title){
         this.title=title;
     }
-    public final void displayTo(Player player){
+    public final void displayTo(Player player) {
         Inventory inventory = Bukkit.createInventory(player, this.size, this.title);
-        for(Button button : this.buttons){
+        for (Button button : this.buttons) {
             inventory.setItem(button.getSlot(), button.getItem());
         }
         player.setMetadata("AuroraAPI", new FixedMetadataValue(AuroraAPI.getInstance(), this));
-
         player.openInventory(inventory);
+    
+        // Journal pour vérifier l'association
+        AuroraAPI.getInstance().getLogger().info("Menu affiché pour le joueur : " + player.getName());
     }
 }

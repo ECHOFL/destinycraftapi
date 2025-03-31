@@ -54,5 +54,6 @@ public class CustomCraftModule implements PluginModule {
         customCraftConfig = plugin.getConfigManager().getConfig("modules/customcraft/config.yml");
         LoggerUtil.info(getName() + " module rechargé.");
     }
+
     
 }
