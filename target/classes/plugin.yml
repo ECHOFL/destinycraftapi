@@ -4,5 +4,11 @@ version: '1.0'
 author: Fliqq
 api-version: '1.21.4'
 description: AuroraMC API
+commands:
+  customcraft:
+    usage: /<command>
+    permission: auroramc.customcraft
+    permission-message: You do not have permission to use this command.
+    aliases: [cr, cc]
 
 

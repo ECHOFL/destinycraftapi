@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import abc.fliqq.auroramc.AuroraAPI;
 import abc.fliqq.auroramc.core.PluginModule;
 import abc.fliqq.auroramc.core.util.LoggerUtil;
+import abc.fliqq.auroramc.modules.customcraft.listener.MenuListener;
 import abc.fliqq.auroramc.modules.customcraft.listener.VillagerListener;
 import lombok.Getter;
 
@@ -33,9 +34,9 @@ public class CustomCraftModule implements PluginModule {
 
         // register listener
         plugin.getServer().getPluginManager().registerEvents(new VillagerListener(this), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
         // register commands
-
-
+        plugin.getCommand("customcraft").setExecutor(new CustomCraftCommand(this));
 
         LoggerUtil.info(getName() + " module initialisé.");
 
