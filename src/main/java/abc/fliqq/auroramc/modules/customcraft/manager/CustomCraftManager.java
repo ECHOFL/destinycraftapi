@@ -1,4 +1,4 @@
-package abc.fliqq.auroramc.modules.customcraft;
+package abc.fliqq.auroramc.modules.customcraft.manager;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -32,6 +32,8 @@ import com.google.gson.GsonBuilder;
 
 import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.LoggerUtil;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraft;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraftModule;
 
 public class CustomCraftManager {
 
@@ -170,9 +172,9 @@ public class CustomCraftManager {
             LoggerUtil.warning("Matériau invalide pour le résultat: " + data.result);
             resultMaterial = Material.STONE; // Matériau par défaut
         }
-        
+    
         ItemStack result = new ItemStack(resultMaterial);
-        
+    
         // Appliquer les metaData si présentes
         if (data.displayName != null || data.lore != null || 
             (data.enchantments != null && !data.enchantments.isEmpty()) ||
@@ -181,10 +183,9 @@ public class CustomCraftManager {
             ItemMeta meta = result.getItemMeta();
             if (meta != null) {
                 if (data.displayName != null) {
-                    // Coloriser le nom via MessageService
                     meta.setDisplayName(MessageService.colorize(data.displayName));
                 }
-                
+    
                 if (data.lore != null) {
                     List<String> coloredLore = new ArrayList<>();
                     for (String line : data.lore) {
@@ -192,7 +193,7 @@ public class CustomCraftManager {
                     }
                     meta.setLore(coloredLore);
                 }
-                
+    
                 if (data.enchantments != null) {
                     for (Map.Entry<String, Integer> entry : data.enchantments.entrySet()) {
                         Enchantment ench = Enchantment.getByName(entry.getKey());
@@ -203,10 +204,10 @@ public class CustomCraftManager {
                         }
                     }
                 }
-                
+    
                 // Définir l'indestructibilité
                 meta.setUnbreakable(data.unbreakable);
-                
+    
                 // Ajouter les flags pour masquer les informations
                 if (data.hideFlags != null && !data.hideFlags.isEmpty()) {
                     for (String flagName : data.hideFlags) {
@@ -218,87 +219,54 @@ public class CustomCraftManager {
                         }
                     }
                 }
-                
+    
                 result.setItemMeta(meta);
             }
         }
-        
-        // Vérifier la validité de la forme
-        if (data.shape == null || data.shape.length == 0 || data.shape.length > 3) {
-            LoggerUtil.warning("Forme invalide pour la recette de " + data.result);
-            data.shape = new String[]{"XXX", "XXX", "XXX"}; // Forme par défaut
-        }
-        
-        // Vérifier que chaque ligne a la même longueur et ne dépasse pas 3 caractères
-        for (int i = 0; i < data.shape.length; i++) {
-            if (data.shape[i].length() > 3) {
-                data.shape[i] = data.shape[i].substring(0, 3);
-                LoggerUtil.warning("Ligne de forme trop longue, tronquée à 3 caractères: " + data.shape[i]);
-            }
-            // Remplir les lignes trop courtes avec des espaces
-            while (data.shape[i].length() < 3) {
-                data.shape[i] += " ";
-            }
-        }
-        
+    
         Map<Character, ItemStack> ingredients = new HashMap<>();
         if (data.ingredients != null) {
             for (Map.Entry<String, String> entry : data.ingredients.entrySet()) {
-                if (entry.getKey() == null || entry.getKey().isEmpty()) {
-                    LoggerUtil.warning("Clé d'ingrédient invalide pour la recette de " + data.result);
-                    continue;
-                }
-                
                 char key = entry.getKey().charAt(0);
-                String materialName = entry.getValue();
-                Material material = Material.getMaterial(materialName);
-                
+                Material material = Material.getMaterial(entry.getValue());
                 if (material != null) {
                     ingredients.put(key, new ItemStack(material));
                 } else {
-                    LoggerUtil.warning("Matériau invalide pour l'ingrédient " + key + ": " + materialName);
+                    LoggerUtil.warning("Matériau invalide pour l'ingrédient " + key + ": " + entry.getValue());
                 }
             }
         }
-        
-        // Vérifier que tous les caractères de la forme ont un ingrédient correspondant (sauf espace)
-        for (String row : data.shape) {
-            for (char c : row.toCharArray()) {
-                if (c != ' ' && !ingredients.containsKey(c)) {
-                    LoggerUtil.warning("Caractère de forme sans ingrédient correspondant: " + c);
-                }
-            }
-        }
-        
-        return new CustomCraft(result, data.shape, ingredients);
+    
+        return new CustomCraft(result, data.shape, ingredients, data.unbreakable);
     }
+        
     
     private CustomCraftData convertToCustomCraftData(CustomCraft craft) {
         CustomCraftData data = new CustomCraftData();
         ItemStack result = craft.getResult();
         data.result = result.getType().name();
-        
+    
         // Extraire les metaData : displayName, lore, enchantments, unbreakable, hideFlags
         ItemMeta meta = result.getItemMeta();
         if (meta != null) {
             if (meta.hasDisplayName()) {
                 data.displayName = meta.getDisplayName();
             }
-            
+    
             if (meta.hasLore()) {
                 data.lore = meta.getLore();
             }
-            
+    
             if (!meta.getEnchants().isEmpty()) {
                 data.enchantments = new HashMap<>();
                 meta.getEnchants().forEach((ench, level) -> {
                     data.enchantments.put(ench.getName(), level);
                 });
             }
-            
+    
             // Sauvegarder l'état d'indestructibilité
             data.unbreakable = meta.isUnbreakable();
-            
+    
             // Sauvegarder les flags d'item
             if (!meta.getItemFlags().isEmpty()) {
                 data.hideFlags = new ArrayList<>();
@@ -307,7 +275,7 @@ public class CustomCraftManager {
                 }
             }
         }
-        
+    
         data.shape = craft.getShape();
         data.ingredients = new HashMap<>();
         for (Map.Entry<Character, ItemStack> entry : craft.getIngredients().entrySet()) {
@@ -318,11 +286,11 @@ public class CustomCraftManager {
 
     private static class CustomCraftData {
         String result;
-        String displayName; // Nom personnalisé de l'item résultant (avec codes de couleur en notation &)
-        List<String> lore;  // Lore de l'item résultant (avec codes de couleur)
-        Map<String, Integer> enchantments; // Map d'enchantement (nom -> niveau)
-        boolean unbreakable = false; // Si l'item est indestructible
-        List<String> hideFlags; // Liste des flags pour masquer certaines informations
+        String displayName;
+        List<String> lore;
+        Map<String, Integer> enchantments;
+        boolean unbreakable = false;
+        List<String> hideFlags;
         String[] shape;
         Map<String, String> ingredients;
     }

@@ -8,9 +8,13 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import abc.fliqq.auroramc.core.util.menu.Menu;
+
 public class CreationSession {
     private final Player player;
     private final ItemStack baseItem;
+    private Menu currentMenu; // Nouveau champ pour suivre le menu actuel
+
     private String name;
     private final List<String> lore = new ArrayList<>();
     private final Map<Enchantment, Integer> enchantments = new HashMap<>();
@@ -18,6 +22,11 @@ public class CreationSession {
     private boolean unbreakable = false;
     private final String[] shape = new String[]{"   ", "   ", "   "};
     private final Map<Character, ItemStack> ingredients = new HashMap<>();
+
+    public enum InputType {
+        NAME, LORE
+    }
+    private InputType awaitingInput;
 
     public CreationSession(Player player, ItemStack baseItem) {
         this.player = player;
@@ -35,6 +44,13 @@ public class CreationSession {
 
     public String getName() {
         return name;
+    }
+    public Menu getCurrentMenu() {
+        return currentMenu;
+    }
+
+    public void setCurrentMenu(Menu currentMenu) {
+        this.currentMenu = currentMenu;
     }
 
     public void setName(String name) {
@@ -110,7 +126,7 @@ public class CreationSession {
     }
 
     public CustomCraft toCustomCraft() {
-        return new CustomCraft(baseItem, shape, ingredients);
+        return new CustomCraft(baseItem, shape, ingredients, unbreakable);
     }
 
     public void updateBaseItem(){
@@ -145,5 +161,13 @@ public class CreationSession {
 
             // Mettre à jour l'aperçu de l'item
             baseItem.setItemMeta(updatedItem.getItemMeta());
+    }
+
+    public InputType getAwaitingInput() {
+        return awaitingInput;
+    }
+
+    public void setAwaitingInput(InputType awaitingInput) {
+        this.awaitingInput = awaitingInput;
     }
 }

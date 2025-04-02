@@ -7,6 +7,7 @@ import abc.fliqq.auroramc.core.PluginModule;
 import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.modules.customcraft.listener.MenuListener;
 import abc.fliqq.auroramc.modules.customcraft.listener.VillagerListener;
+import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
 import lombok.Getter;
 
 public class CustomCraftModule implements PluginModule {

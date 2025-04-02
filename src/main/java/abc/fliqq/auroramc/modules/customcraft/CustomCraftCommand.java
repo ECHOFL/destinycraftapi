@@ -5,6 +5,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import abc.fliqq.auroramc.core.services.MessageService;
+import abc.fliqq.auroramc.modules.customcraft.menu.MainMenu;
 
 public class CustomCraftCommand implements CommandExecutor {
 
@@ -22,7 +23,7 @@ public class CustomCraftCommand implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        new CustomCraftMenu(customCraftModule).displayTo(player);
+        new MainMenu(customCraftModule).displayTo(player);
         return true;
     }
 }
