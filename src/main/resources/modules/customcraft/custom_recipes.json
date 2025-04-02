@@ -1,0 +1,106 @@
+[
+    {
+      "result": "DIAMOND_SWORD",
+      "displayName": "&6&lÉpée Légendaire du &c&lDragon",
+      "lore": [
+        "&7Une épée forgée dans les",
+        "&7flammes éternelles d'un dragon.",
+        "",
+        "&c+50% de dégâts contre les monstres",
+        "&9+20% de vitesse d'attaque",
+        "",
+        "&6&lLÉGENDAIRE"
+      ],
+      "enchantments": {
+        "DAMAGE_ALL": 5,
+        "FIRE_ASPECT": 2,
+        "DURABILITY": 3,
+        "KNOCKBACK": 2,
+        "SWEEPING_EDGE": 3
+      },
+      "unbreakable": true,
+      "hideFlags": [
+        "HIDE_ATTRIBUTES",
+        "HIDE_UNBREAKABLE"
+      ],
+      "shape": [
+        " D ",
+        "DND",
+        " S "
+      ],
+      "ingredients": {
+        "D": "DIAMOND",
+        "N": "NETHER_STAR",
+        "S": "BLAZE_ROD"
+      }
+    },
+    {
+      "result": "NETHERITE_CHESTPLATE",
+      "displayName": "&5&lArmure du &8&lNéant",
+      "lore": [
+        "&7Forgée dans les profondeurs du Néant,",
+        "&7cette armure offre une protection ultime.",
+        "",
+        "&8• &7Résistance au feu",
+        "&8• &7Résistance aux explosions",
+        "",
+        "&5&lMYTHIQUE"
+      ],
+      "enchantments": {
+        "PROTECTION_ENVIRONMENTAL": 4,
+        "PROTECTION_FIRE": 4,
+        "PROTECTION_EXPLOSIONS": 4,
+        "THORNS": 3,
+        "DURABILITY": 3
+      },
+      "unbreakable": true,
+      "hideFlags": [
+        "HIDE_ATTRIBUTES",
+        "HIDE_ENCHANTS",
+        "HIDE_UNBREAKABLE"
+      ],
+      "shape": [
+        "NNN",
+        "NDN",
+        "NNN"
+      ],
+      "ingredients": {
+        "N": "NETHERITE_INGOT",
+        "D": "DRAGON_EGG"
+      }
+    },
+    {
+      "result": "BOW",
+      "displayName": "&b&lArc de &f&lGivre",
+      "lore": [
+        "&7Un arc enchanté par les",
+        "&7esprits du froid éternel.",
+        "",
+        "&bEffet: &7Ralentit les ennemis",
+        "&bEffet: &7Inflige des dégâts de glace",
+        "",
+        "&b&lRARE"
+      ],
+      "enchantments": {
+        "POWER": 5,
+        "INFINITY": 1,
+        "PUNCH": 2,
+        "DURABILITY": 3
+      },
+      "unbreakable": true,
+      "hideFlags": [
+        "HIDE_ATTRIBUTES",
+        "HIDE_UNBREAKABLE"
+      ],
+      "shape": [
+        "ISI",
+        "IPI",
+        "ISI"
+      ],
+      "ingredients": {
+        "I": "ICE",
+        "S": "STRING",
+        "P": "PRISMARINE_CRYSTALS"
+      }
+    }
+  ]

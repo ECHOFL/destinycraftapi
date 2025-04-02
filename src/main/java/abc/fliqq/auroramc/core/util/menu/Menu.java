@@ -10,6 +10,7 @@ import org.bukkit.metadata.FixedMetadataValue;
 import org.checkerframework.checker.units.qual.s;
 
 import abc.fliqq.auroramc.AuroraAPI;
+import abc.fliqq.auroramc.core.util.LoggerUtil;
 import lombok.Getter;
 
 public class Menu {
@@ -33,10 +34,10 @@ public class Menu {
         for (Button button : this.buttons) {
             inventory.setItem(button.getSlot(), button.getItem());
         }
-        player.setMetadata("AuroraAPI", new FixedMetadataValue(AuroraAPI.getInstance(), this));
         player.openInventory(inventory);
-    
-        // Journal pour vérifier l'association
-        AuroraAPI.getInstance().getLogger().info("Menu affiché pour le joueur : " + player.getName());
+        player.setMetadata("AuroraAPI", new FixedMetadataValue(AuroraAPI.getInstance(), this));
+
+        // Journal pour vérifier que la métadonnée est définie
+        LoggerUtil.info("Menu '" + this.title + "' affiché pour le joueur : " + player.getName());
     }
 }

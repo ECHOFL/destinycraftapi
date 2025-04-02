@@ -1,5 +1,6 @@
 package abc.fliqq.auroramc.modules.customcraft.listener;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -8,6 +9,7 @@ import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
 import abc.fliqq.auroramc.AuroraAPI;
+import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
 
@@ -38,10 +40,12 @@ public class MenuListener implements Listener{
     public void onInventoryClose(InventoryCloseEvent event) {
         Player player = (Player) event.getPlayer();
 
+        // Vérifiez si le joueur a encore un menu ouvert
         if (player.hasMetadata("AuroraAPI")) {
             player.removeMetadata("AuroraAPI", AuroraAPI.getInstance());
-            AuroraAPI.getInstance().getLogger().info("Métadonné AuroraAPI supprimé pour le joueur : " + player.getName());
+            LoggerUtil.info("Métadonnée AuroraAPI supprimée pour le joueur : " + player.getName());
         }
+    
     }
 
     @EventHandler
