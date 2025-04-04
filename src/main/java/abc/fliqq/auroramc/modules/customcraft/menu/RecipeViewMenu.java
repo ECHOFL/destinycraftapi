@@ -6,6 +6,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
+import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.ItemBuilder;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
@@ -163,7 +164,7 @@ public class RecipeViewMenu extends Menu {
                 player.closeInventory();
 
                 // Envoyer un message de confirmation au joueur
-                player.sendMessage("§aLa recette " + recipe.getResult().getItemMeta().getDisplayName() + " a été supprimée avec succès !");
+                player.sendMessage(MessageService.colorize(module.getModulePrefix()+"&aLa recette " + recipe.getResult().getItemMeta().getDisplayName() + "&a a été supprimée avec succès !"));
             }
         });
     }

@@ -1,6 +1,5 @@
 
 # Fichier de configuration des messages pour AuroraAPI
-# Veuillez vous assurer que ce fichier est encodé en UTF-8 sans BOM
 
 general:
   # Préfixe par défaut utilisé par l'ensemble du plugin
@@ -20,5 +19,4 @@ general:
 
 customcraft:
   prefix: "&7[&aCustomCraft&7] &r"
-#   message_key: "message correspondant"
-#   ...
+  # message_key: "message correspondant"

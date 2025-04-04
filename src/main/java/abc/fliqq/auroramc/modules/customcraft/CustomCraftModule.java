@@ -4,6 +4,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 
 import abc.fliqq.auroramc.AuroraAPI;
 import abc.fliqq.auroramc.core.PluginModule;
+import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.modules.customcraft.listener.CraftListener;
 import abc.fliqq.auroramc.modules.customcraft.listener.MenuListener;
@@ -13,6 +14,7 @@ import lombok.Getter;
 
 public class CustomCraftModule implements PluginModule {
 
+    @Getter private final String modulePrefix = new MessageService(getPlugin()).getModulePrefix(this);
     @Getter private final AuroraAPI plugin;
     @Getter private CustomCraftManager customCraftManager;
     @Getter

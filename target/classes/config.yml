@@ -14,7 +14,3 @@ modules:
   # Enable or disable modules
   customcraft: true
   duel: false
-  
-# Global
-settings:
-  prefix: '&8[&bAurora&6MC&8] &r'

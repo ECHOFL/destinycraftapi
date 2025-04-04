@@ -24,11 +24,15 @@ public class CustomCraftCommand implements CommandExecutor {
         }
         if(args.length > 0) {
             if(args[0].equalsIgnoreCase("reload")) {
+                if (!sender.hasPermission("customcraft.reload")) {
+                    sender.sendMessage(MessageService.colorize(customCraftModule.getModulePrefix() + "&cVous n'avez pas la permission d'exécuter cette commande."));
+                    return true;
+                }
                 customCraftModule.onReload();
-                sender.sendMessage(MessageService.colorize("&aLe module a été rechargé avec succès."));
+                sender.sendMessage(MessageService.colorize(customCraftModule.getModulePrefix() + "&aLe module a été rechargé avec succès."));
                 return true;
             }
-            sender.sendMessage(MessageService.colorize("&cUsage: /customcraft <reload> ou /customcraft"));
+            sender.sendMessage(MessageService.colorize(customCraftModule.getModulePrefix()+"&cUsage: /customcraft <reload> ou /customcraft"));
             return true;
         }
         Player player = (Player) sender;

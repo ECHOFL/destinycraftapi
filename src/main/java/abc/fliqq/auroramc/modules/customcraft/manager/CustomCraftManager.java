@@ -311,7 +311,6 @@ public class CustomCraftManager {
                 data.hideFlags = new ArrayList<>();
                 for (ItemFlag flag : meta.getItemFlags()) {
                     data.hideFlags.add(flag.name());
-                    LoggerUtil.info("Flag sauvegardé : " + flag.name());
                 }
             }
         }

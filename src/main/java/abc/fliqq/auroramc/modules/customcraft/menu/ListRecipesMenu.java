@@ -5,6 +5,7 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.ItemBuilder;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
@@ -31,7 +32,7 @@ public class ListRecipesMenu extends Menu {
 
                 @Override
                 public void onClick(Player player) {
-                    player.sendMessage("§aVous avez sélectionné la recette : " + craft.getResult().getItemMeta().getDisplayName());
+                    player.sendMessage(MessageService.colorize(module.getModulePrefix()+"&aVous avez sélectionné la recette : " + craft.getResult().getItemMeta().getDisplayName()));
                     new RecipeViewMenu(craft, craftManager, module).displayTo(player);
                 }
             });

@@ -7,6 +7,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 import abc.fliqq.auroramc.AuroraAPI;
+import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.ItemBuilder;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
@@ -33,7 +34,7 @@ public class CreationMenu extends Menu {
 
             @Override
             public void onClick(Player player) {
-                player.sendMessage("§eAperçu de l'item en cours de création.");
+                player.sendMessage(MessageService.colorize(module.getModulePrefix()+  "&eAperçu de l'item en cours de création."));
             }
         });
 
@@ -48,7 +49,7 @@ public class CreationMenu extends Menu {
             public void onClick(Player player) {
                 session.setAwaitingInput(CreationSession.InputType.NAME); // Attendre une entrée pour le nom
                 player.closeInventory(); // Fermer le menu
-                player.sendMessage("§aEntrez le nouveau nom dans le chat.");
+                player.sendMessage(MessageService.colorize(module.getModulePrefix()+  "&aEntrez le nouveau nom dans le chat."));
 
             }
         });
@@ -63,7 +64,7 @@ public class CreationMenu extends Menu {
             public void onClick(Player player) {
                 session.setAwaitingInput(CreationSession.InputType.LORE); // Définir l'état avant de fermer le menu
                 player.closeInventory(); // Fermer le menu
-                player.sendMessage("§aEntrez les lignes du lore dans le chat. Tapez 'terminer' pour finir.");
+                player.sendMessage(MessageService.colorize(module.getModulePrefix()+ "&aEntrez les lignes du lore dans le chat. Tapez &c&l'terminer' &apour finir."));
             }
         });
 
@@ -116,7 +117,7 @@ public class CreationMenu extends Menu {
         public void onClick(Player player) {
             // Vérifier si la shape est valide
             if (!isShapeValid()) {
-                player.sendMessage("§cVous devez définir une forme valide avant de finaliser !");
+                player.sendMessage(MessageService.colorize(module.getModulePrefix()+ "&cVous devez définir une forme valide avant de finaliser !"));
                 return;
             }
 
@@ -127,7 +128,7 @@ public class CreationMenu extends Menu {
             CustomCraftManager manager = module.getCustomCraftManager();
             manager.addRecipe(craft);
 
-            player.sendMessage("§aRecette finalisée et sauvegardée !");
+            player.sendMessage(MessageService.colorize(module.getModulePrefix()+ "&aRecette finalisée et sauvegardée !"));
             player.closeInventory();
         }
 

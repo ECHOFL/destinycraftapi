@@ -43,13 +43,13 @@ public class MainMenu extends Menu {
             public void onClick(Player player) {
                 ItemStack itemInHand = player.getInventory().getItemInMainHand();
                 if (itemInHand == null || itemInHand.getType() == Material.AIR) {
-                    player.sendMessage("§cVous devez tenir un item en main pour commencer !");
+                    player.sendMessage(MessageService.colorize(module.getModulePrefix()+"&cVous devez tenir un item en main pour commencer !"));
                     return;
                 }
         
                 // Vérifier si une session existe déjà
                 if (CreationSessionManager.hasSession(player)) {
-                    player.sendMessage("§cVous avez déjà une session active !");
+                    player.sendMessage(MessageService.colorize(module.getModulePrefix()+"&cVous avez déjà une session active !"));
                     return;
                 }
         

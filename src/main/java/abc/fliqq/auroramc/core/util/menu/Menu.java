@@ -9,7 +9,6 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
 import org.jetbrains.annotations.NotNull;
 
-import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.modules.customcraft.CreationSession;
 import abc.fliqq.auroramc.modules.customcraft.manager.CreationSessionManager;
 import lombok.Getter;
@@ -48,13 +47,8 @@ public class Menu implements InventoryHolder{
         CreationSession session = CreationSessionManager.getSession(player);
         if (session != null) {
             session.setCurrentMenu(this);
-            LoggerUtil.info("Session trouvée pour le joueur : " + player.getName() + ". Menu mis à jour.");
-        } else {
-            LoggerUtil.warning("Aucune session trouvée pour le joueur : " + player.getName());
         }
     
-        // Journal pour vérifier que le menu est affiché
-        LoggerUtil.info("Menu '" + this.title + "' affiché pour le joueur : " + player.getName());
     }
 
     // Nouvelle méthode pour récupérer un bouton par son slot

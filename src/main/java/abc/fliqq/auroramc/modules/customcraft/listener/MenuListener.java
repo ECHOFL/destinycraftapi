@@ -238,10 +238,7 @@ public class MenuListener implements Listener {
                             new CreationMenu(session).displayTo(player);
                         }
                     }
-                } else {
-                    // Le joueur est toujours dans un menu personnalisé, ne rien faire
-                    LoggerUtil.info("Le joueur " + player.getName() + " est toujours dans un menu personnalisé. Aucune action nécessaire.");
-                }
+                } 
             }, 5L); // Vérifier après 5 ticks
         }
     }
