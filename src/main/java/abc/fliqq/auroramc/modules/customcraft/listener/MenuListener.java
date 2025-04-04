@@ -41,13 +41,11 @@ public class MenuListener implements Listener {
         int topInventorySize = event.getView().getTopInventory().getSize(); // Taille de l'inventaire du menu
     
         // Vérifier si une session existe
-        LoggerUtil.info("Slot cliqué : " + rawSlot);
         CreationSession session = CreationSessionManager.getSession(player);
     
         if (session != null) {
             Menu menu = session.getCurrentMenu();
             if (menu instanceof ShapeMenu) {
-                LoggerUtil.info("Menu actuel : ShapeMenu");
     
                 // Vérifier si le clic est dans l'inventaire personnel
                 if (rawSlot >= topInventorySize) {
@@ -55,10 +53,8 @@ public class MenuListener implements Listener {
                     ItemStack selectedItem = event.getCurrentItem();
                     if (selectedItem != null && selectedItem.getType() != Material.AIR) {
                         session.setActiveItem(selectedItem.clone()); // Stocker l'item actif dans la session
-                        LoggerUtil.info("Item sélectionné : " + selectedItem.getType());
                     } else {
                         session.setActiveItem(null); // Réinitialiser l'item actif
-                        LoggerUtil.info("Aucun item actif sélectionné.");
                     }
                     return; // Ne pas annuler le clic dans l'inventaire personnel
                 }
@@ -79,12 +75,10 @@ public class MenuListener implements Listener {
                         singleItem.setAmount(1);
                 
                         session.setCraftSlot(row, col, singleItem);
-                        LoggerUtil.info("Item ajouté à la grille : " + singleItem.getType() + " (quantité forcée à 1)");
                         ((ShapeMenu) menu).updateSlot(row, col, singleItem); // Mettre à jour le slot
                     } else {
                         // Si aucun item actif, vider le slot
                         session.clearCraftSlot(row, col);
-                        LoggerUtil.info("Slot vidé dans la grille : " + rawSlot);
                         ((ShapeMenu) menu).updateSlot(row, col, new ItemStack(Material.AIR)); // Vider le slot
                     }
                 
@@ -92,13 +86,11 @@ public class MenuListener implements Listener {
                  else if (rawSlot == 40) {
                     // Si le clic est sur le bouton "Retour"
                     event.setCancelled(true);
-                    LoggerUtil.info("Bouton 'Retour' cliqué. Sauvegarde de la shape.");
                     session.setShape(generateShapeFromGrid(session));
                     new CreationMenu(session).displayTo(player);
                 } else {
                     // Annuler les clics hors de la grille 3x3 et du bouton "Retour"
                     event.setCancelled(true);
-                    LoggerUtil.info("Slot en dehors de la grille 3x3 : " + rawSlot);
                 }
             }
             else if (menu != null) {
@@ -120,7 +112,6 @@ public class MenuListener implements Listener {
                 Menu menu = (Menu) inventory.getHolder();
                 Button button = menu.getButton(event.getSlot());
                 if (button != null) {
-                    LoggerUtil.info("Bouton cliqué au slot " + event.getSlot() + " dans le menu : " + menu.getTitle());
                     button.onClick(player);
                 }
             }
@@ -191,6 +182,7 @@ public class MenuListener implements Listener {
         }
     }
 
+    
         @EventHandler
         public void onInventoryInteract(InventoryInteractEvent event) {
             if (!(event.getWhoClicked() instanceof Player)) return;
@@ -224,11 +216,9 @@ public class MenuListener implements Listener {
         CreationSession session = CreationSessionManager.getSession(player);
     
         if (session != null) {
-            LoggerUtil.info("État de getAwaitingInput pour " + player.getName() + ": " + session.getAwaitingInput());
     
             // Ne pas supprimer la session si le joueur attend une entrée
             if (session.getAwaitingInput() != null) {
-                LoggerUtil.info("Le joueur " + player.getName() + " attend une entrée. Session conservée.");
                 return;
             }
     
@@ -261,11 +251,8 @@ public class MenuListener implements Listener {
         CreationSession session = CreationSessionManager.getSession(player);
     
         if (session != null) {
-            LoggerUtil.info("Suppression de la session pour le joueur : " + player.getName());
             CreationSessionManager.removeSession(player);
-        } else {
-            LoggerUtil.warning("Tentative de suppression d'une session inexistante pour le joueur : " + player.getName());
-        }
+        } 
     }
 
         private boolean isGridSlot(int slot) {

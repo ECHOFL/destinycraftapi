@@ -8,7 +8,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.core.util.menu.Menu;
 import lombok.Getter;
 import lombok.Setter;
@@ -122,10 +121,8 @@ public class CreationSession {
     public void toggleFlag(ItemFlag flag) {
         if (flags.contains(flag)) {
             flags.remove(flag);
-            LoggerUtil.info("Flag retiré : " + flag);
         } else {
             flags.add(flag);
-            LoggerUtil.info("Flag ajouté : " + flag);
         }
     }
     
@@ -218,10 +215,8 @@ public class CreationSession {
     
             // Appliquer les flags
             meta.getItemFlags().forEach(meta::removeItemFlags); // Supprimer les anciens flags
-            LoggerUtil.info("Flags avant ajout : " + meta.getItemFlags());
             flags.forEach(flag -> {
                 meta.addItemFlags(flag);
-                LoggerUtil.info("Flag appliqué : " + flag);
             });
     
             // Définir l'indestructibilité
@@ -231,7 +226,6 @@ public class CreationSession {
     
             // Mettre à jour l'aperçu de l'item
             baseItem.setItemMeta(updatedItem.getItemMeta());
-            LoggerUtil.info("ItemMeta après mise à jour : " + baseItem.getItemMeta());
         }
     }
     public InputType getAwaitingInput() {

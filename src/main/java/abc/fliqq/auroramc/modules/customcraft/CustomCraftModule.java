@@ -15,6 +15,7 @@ public class CustomCraftModule implements PluginModule {
 
     @Getter private final AuroraAPI plugin;
     @Getter private CustomCraftManager customCraftManager;
+    @Getter
     private FileConfiguration customCraftConfig;
 
     public CustomCraftModule(AuroraAPI plugin) {
@@ -39,7 +40,6 @@ public class CustomCraftModule implements PluginModule {
         plugin.getServer().getPluginManager().registerEvents(new MenuListener(this), plugin);
         plugin.getServer().getPluginManager().registerEvents(new CraftListener(customCraftManager), plugin);
         // register commands
-        plugin.getCommand("testcommand").setExecutor(new TestCommand());
 
         plugin.getCommand("customcraft").setExecutor(new CustomCraftCommand(this));
 

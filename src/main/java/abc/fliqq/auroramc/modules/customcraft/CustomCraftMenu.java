@@ -8,7 +8,6 @@ import java.util.Collections;
 
 import abc.fliqq.auroramc.core.services.MessageService;
 import abc.fliqq.auroramc.core.util.ItemBuilder;
-import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
 import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
@@ -99,7 +98,6 @@ public class CustomCraftMenu extends Menu {
 
                 @Override
                 public void onClick(Player player) {
-                    LoggerUtil.info("Bouton 'Retour' cliqué par : " + player.getName());
                     parentMenu.displayTo(player);
 
                 }

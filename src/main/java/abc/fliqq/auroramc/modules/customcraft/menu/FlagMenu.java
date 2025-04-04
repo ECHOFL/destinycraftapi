@@ -51,7 +51,6 @@ public class FlagMenu extends Menu {
             @Override
             public ItemStack getItem() {
                 boolean isActive = session.getFlags().contains(ItemFlag.HIDE_ATTRIBUTES);
-                LoggerUtil.info("HIDE_ATTRIBUTES est " + (isActive ? "activé" : "désactivé") + " pour le joueur : " + session.getPlayer().getName());
                 return ItemBuilder.of(Material.IRON_SWORD, "§eMasquer les attributs",
                         Collections.singletonList(isActive ? "§aActivé" : "§cDésactivé"))
                         .setEnchants(isActive ? Collections.singletonMap(org.bukkit.enchantments.Enchantment.EFFICIENCY, 1) : Collections.emptyMap()) // Glow si activé
@@ -64,10 +63,8 @@ public class FlagMenu extends Menu {
                 // Activer ou désactiver le flag
                 if (session.getFlags().contains(ItemFlag.HIDE_ATTRIBUTES)) {
                     session.getFlags().remove(ItemFlag.HIDE_ATTRIBUTES);
-                    LoggerUtil.info("HIDE_ATTRIBUTES retiré pour le joueur : " + player.getName());
                 } else {
                     session.getFlags().add(ItemFlag.HIDE_ATTRIBUTES);
-                    LoggerUtil.info("HIDE_ATTRIBUTES ajouté pour le joueur : " + player.getName());
                 }
 
                 session.updateBaseItem(); // Mettre à jour l'item de base

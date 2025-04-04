@@ -1,7 +1,6 @@
 package abc.fliqq.auroramc.modules.customcraft.listener;
 
 import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
-import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.modules.customcraft.CustomCraft;
 
 import java.util.Map;
@@ -34,27 +33,26 @@ public class CraftListener implements Listener {
     private boolean isCraftBlocked(ItemStack item, CraftingInventory inventory) {
         boolean isCustomCraft = false;
 
+        // Vérifier si c'est une recette personnalisée
         for (CustomCraft craft : craftManager.getRecipes()) {
             if (isCustomCraft(craft, inventory)) {
                 isCustomCraft = true;
-                LoggerUtil.info("Craft autorisé : correspond à une recette personnalisée pour " + craft.getResult().getType());
                 break;
             }
         }
 
         if (isCustomCraft) {
-            return false;
+            return false; // Autoriser les recettes personnalisées
         }
 
+        // Bloquer les crafts naturels si désactivés
         for (CustomCraft craft : craftManager.getRecipes()) {
             if (craft.isDisableNaturalCraft() && item.getType() == craft.getResult().getType()) {
-                LoggerUtil.info("Craft bloqué : craft naturel désactivé pour " + craft.getResult().getType());
-                return true;
+                return true; // Bloquer le craft naturel
             }
         }
 
-        LoggerUtil.info("Craft autorisé : aucun blocage trouvé pour " + item.getType());
-        return false;
+        return false; // Autoriser les autres crafts
     }
 
     private boolean isCustomCraft(CustomCraft craft, CraftingInventory inventory) {
