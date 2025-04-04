@@ -18,5 +18,5 @@ general:
 #   connection_error: "&cErreur de connexion à la base de données."
 
 customcraft:
-  prefix: "&7[&aCustomCraft&7] &r"
+  prefix: "&7[&aCustom&eCraft&7] &r"
   # message_key: "message correspondant"

@@ -14,7 +14,7 @@ import lombok.Getter;
 
 public class CustomCraftModule implements PluginModule {
 
-    @Getter private final String modulePrefix = new MessageService(getPlugin()).getModulePrefix(this);
+    @Getter private final String modulePrefix = new MessageService(AuroraAPI.getInstance()).getModulePrefix(this);
     @Getter private final AuroraAPI plugin;
     @Getter private CustomCraftManager customCraftManager;
     @Getter

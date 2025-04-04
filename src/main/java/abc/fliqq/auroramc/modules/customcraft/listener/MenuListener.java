@@ -23,6 +23,7 @@ import abc.fliqq.auroramc.modules.customcraft.CreationSession;
 import abc.fliqq.auroramc.modules.customcraft.CustomCraftModule;
 import abc.fliqq.auroramc.modules.customcraft.manager.CreationSessionManager;
 import abc.fliqq.auroramc.modules.customcraft.menu.CreationMenu;
+import abc.fliqq.auroramc.modules.customcraft.menu.EnchantMenu;
 import abc.fliqq.auroramc.modules.customcraft.menu.MainMenu;
 import abc.fliqq.auroramc.modules.customcraft.menu.ShapeMenu;
 
@@ -98,7 +99,12 @@ public class MenuListener implements Listener {
                 event.setCancelled(true); // Bloquer toutes les interactions
                 Button button = menu.getButton(event.getSlot());
                 if (button != null) {
-                    button.onClick(player);
+                    if(menu instanceof EnchantMenu){
+                        button.onClick(player, event.getClick());
+                    }else {
+                        button.onClick(player);
+
+                    }
                 }
             }
         }
@@ -263,51 +269,52 @@ public class MenuListener implements Listener {
             return false;
         }
 
-    @EventHandler
-    public void onPlayerChat(AsyncPlayerChatEvent event) {
-        Player player = event.getPlayer();
-        CreationSession session = CreationSessionManager.getSession(player);
-    
-        if (session != null) {
-            event.setCancelled(true); // Bloquer le message dans le chat public
-    
-            String message = event.getMessage();
-    
-            // Convertir les codes de couleur & en §
-            message = MessageService.colorize(message);
-    
-            // Gestion du nom
-            if (session.getAwaitingInput() == CreationSession.InputType.NAME) {
-                session.setName(message);
-                session.updateBaseItem();
-                player.sendMessage("§aNom défini : §e" + message);
-    
-                // Utiliser un scheduler pour retarder la réinitialisation et la réouverture du menu
-                Bukkit.getScheduler().runTaskLater(AuroraAPI.getInstance(), () -> {
-                    session.setAwaitingInput(null); // Réinitialiser l'état
-                    new abc.fliqq.auroramc.modules.customcraft.menu.CreationMenu(session).displayTo(player);
-                }, 3L); // Attendre 5 ticks avant de réinitialiser
-                return;
-            }
-    
-            // Gestion du lore
-            if (session.getAwaitingInput() == CreationSession.InputType.LORE) {
-                if (message.equalsIgnoreCase("terminer")) {
-                    player.sendMessage("§aLore terminé.");
-    
+
+        @EventHandler
+        public void onPlayerChat(AsyncPlayerChatEvent event) {
+            Player player = event.getPlayer();
+            CreationSession session = CreationSessionManager.getSession(player);
+        
+            if (session != null) {
+                event.setCancelled(true); // Bloquer le message dans le chat public
+        
+                String message = event.getMessage();
+        
+                // Convertir les codes de couleur & en §
+                message = MessageService.colorize(message);
+        
+                // Gestion du nom
+                if (session.getAwaitingInput() == CreationSession.InputType.NAME) {
+                    session.setName(message);
+                    session.updateBaseItem();
+                    player.sendMessage(MessageService.colorize(module.getModulePrefix() + "&aNom défini : &f" + message));
+        
                     // Utiliser un scheduler pour retarder la réinitialisation et la réouverture du menu
                     Bukkit.getScheduler().runTaskLater(AuroraAPI.getInstance(), () -> {
                         session.setAwaitingInput(null); // Réinitialiser l'état
                         new abc.fliqq.auroramc.modules.customcraft.menu.CreationMenu(session).displayTo(player);
                     }, 3L); // Attendre 5 ticks avant de réinitialiser
-                } else {
-                    session.addLoreLine(message);
-                    session.updateBaseItem();
-                    player.sendMessage("§aLigne ajoutée au lore : §e" + message);
+                    return;
                 }
-                return;
+        
+                // Gestion du lore
+                if (session.getAwaitingInput() == CreationSession.InputType.LORE) {
+                    if (message.equalsIgnoreCase("terminer")) {
+                        player.sendMessage(MessageService.colorize(module.getModulePrefix() + "&aLore terminé."));
+        
+                        // Utiliser un scheduler pour retarder la réinitialisation et la réouverture du menu
+                        Bukkit.getScheduler().runTaskLater(AuroraAPI.getInstance(), () -> {
+                            session.setAwaitingInput(null); // Réinitialiser l'état
+                            new abc.fliqq.auroramc.modules.customcraft.menu.CreationMenu(session).displayTo(player);
+                        }, 3L); // Attendre 5 ticks avant de réinitialiser
+                    } else {
+                        session.addLoreLine(message);
+                        session.updateBaseItem();
+                        player.sendMessage(MessageService.colorize(module.getModulePrefix() + "&aLigne ajoutée au lore : &f" + message));
+                    }
+                    return;
+                }
             }
         }
-    }
 
 }

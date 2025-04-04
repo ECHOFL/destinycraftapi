@@ -5,6 +5,7 @@ import java.util.Collections;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
 import abc.fliqq.auroramc.core.util.ItemBuilder;
@@ -34,31 +35,19 @@ public class EnchantMenu extends Menu {
                 @Override
                 public ItemStack getItem() {
                     int currentLevel = session.getEnchantments().getOrDefault(enchantment, 0);
-                    int maxLevel = enchantment.getMaxLevel();
-                
                     return ItemBuilder.of(Material.ENCHANTED_BOOK, "§e" + enchantment.getKey().getKey(),
-                            Collections.singletonList("§7Niveau actuel : §a" + currentLevel + "§7 / §c" + maxLevel))
+                            Collections.singletonList("§7Niveau actuel : §a" + currentLevel))
                             .setEnchants(currentLevel > 0 ? Collections.singletonMap(Enchantment.EFFICIENCY, 1) : Collections.emptyMap()) // Glow si niveau > 0
                             .make();
                 }
 
                 @Override
                 public void onClick(Player player) {
-                    int currentLevel = session.getEnchantments().getOrDefault(enchantment, 0);
-                    int maxLevel = enchantment.getMaxLevel();
-
-                    // Augmenter le niveau ou le remettre à 0
-                    if (currentLevel < maxLevel) {
-                        session.getEnchantments().put(enchantment, currentLevel + 1);
-                    } else {
-                        session.getEnchantments().remove(enchantment);
-                    }
-
-                    // Mettre à jour l'aperçu de l'item
-                    session.updateBaseItem();
-
-                    // Rafraîchir le menu
-                    new EnchantMenu(session).displayTo(player);
+                    onClick(player, ClickType.LEFT);
+                }
+                @Override
+                public void onClick(Player player, ClickType clickType) {
+                    handleEnchantmentClick(player, enchantment, clickType);
                 }
             });
         }
@@ -75,5 +64,34 @@ public class EnchantMenu extends Menu {
                 new CreationMenu(session).displayTo(player);
             }
         });
+    }
+
+    /**
+     * Gère les clics sur les boutons d'enchantement.
+     *
+     * @param player      Le joueur qui a cliqué.
+     * @param enchantment L'enchantement concerné.
+     * @param clickType   Le type de clic (gauche ou droit).
+     */
+    private void handleEnchantmentClick(Player player, Enchantment enchantment, ClickType clickType) {
+        int currentLevel = session.getEnchantments().getOrDefault(enchantment, 0);
+
+        if (clickType.isLeftClick()) {
+            // Augmenter le niveau
+            session.getEnchantments().put(enchantment, currentLevel + 1);
+        } else if (clickType.isRightClick()) {
+            // Diminuer le niveau
+            if (currentLevel > 1) {
+                session.getEnchantments().put(enchantment, currentLevel - 1);
+            } else {
+                session.getEnchantments().remove(enchantment); // Supprimer si le niveau atteint 0
+            }
+        }
+
+        // Mettre à jour l'aperçu de l'item
+        session.updateBaseItem();
+
+        // Rafraîchir le menu
+        new EnchantMenu(session).displayTo(player);
     }
 }

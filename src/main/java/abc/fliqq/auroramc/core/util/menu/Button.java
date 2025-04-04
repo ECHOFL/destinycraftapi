@@ -14,4 +14,8 @@ public abstract class Button {
     }
     public abstract ItemStack getItem();
     public abstract void onClick(Player player);
+    public void onClick(Player player, org.bukkit.event.inventory.ClickType clickType) {
+        // Par défaut, appeler la méthode onClick(Player)
+        onClick(player);
+    }
 }
