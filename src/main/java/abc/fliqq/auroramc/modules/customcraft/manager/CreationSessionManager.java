@@ -19,7 +19,6 @@ public class CreationSessionManager {
 
     public static CreationSession getSession(Player player) {
         CreationSession session = sessions.get(player.getUniqueId());
-        LoggerUtil.info("Récupération de la session pour le joueur : " + player.getName() + " - Session trouvée : " + (session != null));
         return session;
     }
 
