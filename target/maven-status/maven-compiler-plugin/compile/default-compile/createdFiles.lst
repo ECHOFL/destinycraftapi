@@ -1,5 +1,7 @@
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$CreateCraftMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/listener/MenuListener.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/menu/FlagMenu$4.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu$6.class
 abc/fliqq/auroramc/core/util/LoggerUtil.class
@@ -10,12 +12,14 @@ abc/fliqq/auroramc/modules/customcraft/CustomCraft.class
 abc/fliqq/auroramc/modules/customcraft/menu/FlagMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/menu/CreationMenu$6.class
 abc/fliqq/auroramc/modules/customcraft/manager/CustomCraftManager$CustomCraftData.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$ListRecipesMenu.class
 abc/fliqq/auroramc/core/util/menu/Menu.class
 abc/fliqq/auroramc/modules/customcraft/menu/CreationMenu.class
 abc/fliqq/auroramc/core/util/menu/Button.class
 abc/fliqq/auroramc/modules/customcraft/manager/CustomCraftManager.class
 abc/fliqq/auroramc/modules/duel/DuelModule.class
 abc/fliqq/auroramc/core/util/ItemBuilder.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$2.class
 abc/fliqq/auroramc/modules/customcraft/menu/ShapeMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/menu/EnchantMenu$2.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu$2.class
@@ -27,9 +31,9 @@ abc/fliqq/auroramc/modules/customcraft/menu/CreationMenu$7.class
 abc/fliqq/auroramc/modules/customcraft/menu/FlagMenu$2.class
 abc/fliqq/auroramc/core/services/MessageService.class
 abc/fliqq/auroramc/modules/customcraft/manager/CustomCraftManager$1.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$ListRecipesMenu$1.class
 abc/fliqq/auroramc/core/services/DatabaseConnector.class
 abc/fliqq/auroramc/modules/customcraft/manager/CreationSessionManager.class
-abc/fliqq/auroramc/modules/customcraft/TestCommand.class
 abc/fliqq/auroramc/modules/customcraft/menu/FlagMenu$5.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu$5.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu$1.class
@@ -39,6 +43,7 @@ abc/fliqq/auroramc/AuroraAPI.class
 abc/fliqq/auroramc/modules/customcraft/menu/CreationMenu$4.class
 abc/fliqq/auroramc/modules/customcraft/menu/MainMenu.class
 abc/fliqq/auroramc/modules/customcraft/listener/CraftListener.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu$CreateCraftMenu.class
 abc/fliqq/auroramc/modules/customcraft/menu/ShapeMenu$3.class
 abc/fliqq/auroramc/modules/customcraft/CustomCraftCommand.class
 abc/fliqq/auroramc/modules/customcraft/menu/ListRecipesMenu$2.class
@@ -50,6 +55,7 @@ abc/fliqq/auroramc/modules/customcraft/menu/MainMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/CustomCraftModule.class
 abc/fliqq/auroramc/modules/customcraft/menu/RecipeViewMenu$7.class
 abc/fliqq/auroramc/modules/customcraft/menu/ShapeMenu$2.class
+abc/fliqq/auroramc/modules/customcraft/CustomCraftMenu.class
 abc/fliqq/auroramc/modules/customcraft/menu/ListRecipesMenu$1.class
 abc/fliqq/auroramc/modules/customcraft/menu/FlagMenu$3.class
 abc/fliqq/auroramc/modules/customcraft/menu/CreationMenu$2.class
