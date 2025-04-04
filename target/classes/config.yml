@@ -6,7 +6,7 @@ database:
     port: 3306
     database: auroramc
     username: admin
-    password: mtheo
+    password: pass
     ssl: false
   
 # Modules
