@@ -35,10 +35,10 @@ public class EnchantMenu extends Menu {
                 public ItemStack getItem() {
                     int currentLevel = session.getEnchantments().getOrDefault(enchantment, 0);
                     int maxLevel = enchantment.getMaxLevel();
-
+                
                     return ItemBuilder.of(Material.ENCHANTED_BOOK, "§e" + enchantment.getKey().getKey(),
                             Collections.singletonList("§7Niveau actuel : §a" + currentLevel + "§7 / §c" + maxLevel))
-                            .setEnchants(currentLevel > 0 ? Collections.singletonMap(enchantment, 1) : Collections.emptyMap()) // Glow si niveau > 0
+                            .setEnchants(currentLevel > 0 ? Collections.singletonMap(Enchantment.EFFICIENCY, 1) : Collections.emptyMap()) // Glow si niveau > 0
                             .make();
                 }
 

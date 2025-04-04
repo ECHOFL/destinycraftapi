@@ -14,7 +14,6 @@ modules:
   # Enable or disable modules
   customcraft: true
   duel: false
-  economy: false
   
 # Global
 settings:

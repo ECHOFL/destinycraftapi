@@ -6,13 +6,18 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
+import abc.fliqq.auroramc.AuroraAPI;
 import abc.fliqq.auroramc.core.util.ItemBuilder;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
 import abc.fliqq.auroramc.modules.customcraft.CreationSession;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraft;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraftModule;
+import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
 
 public class CreationMenu extends Menu {
     private final CreationSession session;
+    private final CustomCraftModule module = (CustomCraftModule) AuroraAPI.getInstance().getModuleManager().getModule("CustomCraft");
 
     public CreationMenu(CreationSession session) {
         this.session = session;
@@ -41,23 +46,24 @@ public class CreationMenu extends Menu {
 
             @Override
             public void onClick(Player player) {
-                player.closeInventory();
+                session.setAwaitingInput(CreationSession.InputType.NAME); // Attendre une entrée pour le nom
+                player.closeInventory(); // Fermer le menu
                 player.sendMessage("§aEntrez le nouveau nom dans le chat.");
-                session.setName(null); // Placeholder pour attendre l'entrée du joueur
+
             }
         });
-
         // Bouton pour modifier le lore
-        addButton(new Button(11) {
+        addButton(new Button(11) { // Slot 11
             @Override
             public ItemStack getItem() {
                 return ItemBuilder.of(Material.BOOK, "§eModifier le lore", Collections.emptyList()).make();
             }
-
+        
             @Override
             public void onClick(Player player) {
-                player.closeInventory();
-                player.sendMessage("§aEntrez une ligne de lore dans le chat (ou 'terminer' pour finir).");
+                session.setAwaitingInput(CreationSession.InputType.LORE); // Définir l'état avant de fermer le menu
+                player.closeInventory(); // Fermer le menu
+                player.sendMessage("§aEntrez les lignes du lore dans le chat. Tapez 'terminer' pour finir.");
             }
         });
 
@@ -88,31 +94,52 @@ public class CreationMenu extends Menu {
         });
 
         // Bouton pour définir la recette
-        addButton(new Button(15) {
-            @Override
-            public ItemStack getItem() {
-                return ItemBuilder.of(Material.CRAFTING_TABLE, "§eDéfinir la recette", Collections.emptyList()).make();
+    // Bouton pour définir la recette
+    addButton(new Button(15) {
+        @Override
+        public ItemStack getItem() {
+            return ItemBuilder.of(Material.CRAFTING_TABLE, "§eDéfinir la recette", Collections.emptyList()).make();
+        }
+
+        @Override
+        public void onClick(Player player) {
+            new ShapeMenu(session).displayTo(player);
+        }
+    });
+    // Bouton pour finaliser la création
+    addButton(new Button(16) {
+        @Override
+        public ItemStack getItem() {
+            return ItemBuilder.of(Material.EMERALD, "§aFinaliser la création", Collections.emptyList()).make();
+        }
+        @Override
+        public void onClick(Player player) {
+            // Vérifier si la shape est valide
+            if (!isShapeValid()) {
+                player.sendMessage("§cVous devez définir une forme valide avant de finaliser !");
+                return;
             }
 
-            @Override
-            public void onClick(Player player) {
-                player.sendMessage("§aOuverture du menu de la recette...");
-                // TODO : Ouvrir un menu pour gérer la grille de craft
-            }
-        });
+            // Créer un objet CustomCraft à partir de la session
+            CustomCraft craft = session.toCustomCraft();
 
-        // Bouton pour finaliser la création
-        addButton(new Button(16) {
-            @Override
-            public ItemStack getItem() {
-                return ItemBuilder.of(Material.EMERALD, "§aFinaliser la création", Collections.emptyList()).make();
-            }
+            // Ajouter la recette au CustomCraftManager
+            CustomCraftManager manager = module.getCustomCraftManager();
+            manager.addRecipe(craft);
 
-            @Override
-            public void onClick(Player player) {
-                player.sendMessage("§aCréation de l'item finalisée !");
-                // TODO : Convertir la session en CustomCraft et l'ajouter au manager
+            player.sendMessage("§aRecette finalisée et sauvegardée !");
+            player.closeInventory();
+        }
+
+        private boolean isShapeValid() {
+            String[] shape = session.getShape();
+            for (String row : shape) {
+                if (!row.trim().isEmpty()) {
+                    return true; // Au moins une ligne contient des caractères
+                }
             }
-        });
+            return false; // Toutes les lignes sont vides
+        }
+    });
     }
 }

@@ -28,17 +28,17 @@ public class MainMenu extends Menu {
 
             @Override
             public void onClick(Player player) {
-                new ListRecipesMenu(module.getCustomCraftManager()).displayTo(player);
+                new ListRecipesMenu(module).displayTo(player);
             }
             
         });
 
-         addButton(new Button(5) {
+        addButton(new Button(14) {
             @Override
             public ItemStack getItem() {
                 return ItemBuilder.of(Material.ANVIL, "&aCréer un nouvel item", Collections.emptyList()).make();
             }
-
+        
             @Override
             public void onClick(Player player) {
                 ItemStack itemInHand = player.getInventory().getItemInMainHand();
@@ -46,11 +46,17 @@ public class MainMenu extends Menu {
                     player.sendMessage("§cVous devez tenir un item en main pour commencer !");
                     return;
                 }
-
+        
+                // Vérifier si une session existe déjà
+                if (CreationSessionManager.hasSession(player)) {
+                    player.sendMessage("§cVous avez déjà une session active !");
+                    return;
+                }
+        
                 // Créer une nouvelle session
                 CreationSession session = new CreationSession(player, itemInHand);
                 CreationSessionManager.addSession(player, session);
-
+        
                 // Ouvrir le menu de création
                 new CreationMenu(session).displayTo(player);
             }

@@ -81,13 +81,13 @@ public class CustomCraftManager {
     public void loadRecipes() {
         // Désinscrire les anciennes recettes
         unregisterRecipes();
-        
+    
         if (!recipesFile.exists()) {
             // Créer le fichier s'il n'existe pas     
             saveRecipes();
             return;
         }
-
+    
         try (BufferedReader reader = new BufferedReader(new FileReader(recipesFile))) {
             Type listType = new TypeToken<List<CustomCraftData>>() {}.getType();
             List<CustomCraftData> dataList = gson.fromJson(reader, listType);
@@ -104,35 +104,60 @@ public class CustomCraftManager {
             LoggerUtil.severe("Erreur lors du chargement des recettes: " + e.getMessage());
             e.printStackTrace();
         }
+    
+        // Supprimer les recettes non reconnues
+        Bukkit.recipeIterator().forEachRemaining(recipe -> {
+            if (recipe instanceof ShapedRecipe) {
+                NamespacedKey key = ((ShapedRecipe) recipe).getKey();
+                if (key.getNamespace().equals(plugin.getName().toLowerCase()) && !isRecipeRegistered(key)) {
+                    Bukkit.removeRecipe(key);
+                    LoggerUtil.warning("Recette non reconnue supprimée : " + key.getKey());
+                }
+            }
+        });
     }
-
+    
+    private boolean isRecipeRegistered(NamespacedKey key) {
+        return registeredRecipes.stream().anyMatch(recipe -> recipe.getKey().equals(key));
+    }
     private void registerRecipe(CustomCraft craft) {
         ItemStack result = craft.getResult();
-        String itemName = result.getType().name().toLowerCase().replace("_", "");
-        NamespacedKey key = new NamespacedKey(plugin, "custom_" + itemName + "_" + System.currentTimeMillis() % 10000);
-        
+        NamespacedKey key = new NamespacedKey(plugin, "custom_" + craft.getId());
+    
+        // Vérifier si une recette avec ce key existe déjà
+        if (Bukkit.getRecipe(key) != null) {
+            LoggerUtil.warning("Une recette avec le même NamespacedKey existe déjà : " + key.getKey());
+            return; // Ne pas enregistrer de doublon
+        }
+    
         ShapedRecipe recipe = new ShapedRecipe(key, result);
-        
+    
         // Définir la forme
         recipe.shape(craft.getShape());
-        
+    
         // Définir les ingrédients
         for (Map.Entry<Character, ItemStack> entry : craft.getIngredients().entrySet()) {
             char ingredientChar = entry.getKey();
             Material ingredientMaterial = entry.getValue().getType();
             recipe.setIngredient(ingredientChar, new RecipeChoice.MaterialChoice(ingredientMaterial));
         }
-        
+    
         // Enregistrer la recette
         Bukkit.addRecipe(recipe);
         registeredRecipes.add(recipe);
-        
-        LoggerUtil.info("Recette enregistrée: " + key.getKey() + " pour " + result.getType().name());
-    }
     
+        LoggerUtil.info("Recette enregistrée : " + key.getKey() + " pour " + result.getType().name());
+    }
+
     private void unregisterRecipes() {
         for (ShapedRecipe recipe : registeredRecipes) {
-            Bukkit.removeRecipe(recipe.getKey());
+            NamespacedKey key = recipe.getKey();
+            if (Bukkit.getRecipe(key) != null) {
+                Bukkit.removeRecipe(key);
+                LoggerUtil.info("Recette supprimée : " + key.getKey());
+            } else {
+                LoggerUtil.warning("Impossible de trouver la recette à supprimer : " + key.getKey());
+            }
         }
         registeredRecipes.clear();
     }
@@ -157,6 +182,7 @@ public class CustomCraftManager {
         recipes.add(craft);
         registerRecipe(craft);
         saveRecipes();
+        LoggerUtil.info("Recette ajoutée : " + craft.getResult().getType().name());
     }
 
     public void removeRecipe(CustomCraft craft) {
@@ -214,6 +240,7 @@ public class CustomCraftManager {
                         try {
                             ItemFlag flag = ItemFlag.valueOf(flagName);
                             meta.addItemFlags(flag);
+                            LoggerUtil.info("Flag appliqué : " + flagName);
                         } catch (IllegalArgumentException e) {
                             LoggerUtil.warning("Flag d'item invalide: " + flagName);
                         }
@@ -222,7 +249,12 @@ public class CustomCraftManager {
     
                 result.setItemMeta(meta);
             }
+            
         }
+
+
+            
+
     
         Map<Character, ItemStack> ingredients = new HashMap<>();
         if (data.ingredients != null) {
@@ -237,7 +269,14 @@ public class CustomCraftManager {
             }
         }
     
-        return new CustomCraft(result, data.shape, ingredients, data.unbreakable);
+        // Créer l'objet CustomCraft
+        CustomCraft customCraft = new CustomCraft(result, data.shape, ingredients, data.unbreakable);
+    
+        // Appliquer les nouveaux paramètres
+        customCraft.setDisableNaturalCraft(data.disableNaturalCraft);
+        customCraft.setDisableVillagerTrade(data.disableVillagerTrade);
+    
+        return customCraft;
     }
         
     
@@ -272,6 +311,7 @@ public class CustomCraftManager {
                 data.hideFlags = new ArrayList<>();
                 for (ItemFlag flag : meta.getItemFlags()) {
                     data.hideFlags.add(flag.name());
+                    LoggerUtil.info("Flag sauvegardé : " + flag.name());
                 }
             }
         }
@@ -281,6 +321,11 @@ public class CustomCraftManager {
         for (Map.Entry<Character, ItemStack> entry : craft.getIngredients().entrySet()) {
             data.ingredients.put(String.valueOf(entry.getKey()), entry.getValue().getType().name());
         }
+    
+        // Ajouter les nouveaux paramètres
+        data.disableNaturalCraft = craft.isDisableNaturalCraft();
+        data.disableVillagerTrade = craft.isDisableVillagerTrade();
+    
         return data;
     }
 
@@ -293,5 +338,7 @@ public class CustomCraftManager {
         List<String> hideFlags;
         String[] shape;
         Map<String, String> ingredients;
+        boolean disableNaturalCraft = false;
+        boolean disableVillagerTrade = false;   
     }
 }

@@ -22,6 +22,15 @@ public class CustomCraftCommand implements CommandExecutor {
             sender.sendMessage(MessageService.colorize("&cSeul les joueurs peuvent exécuter cette commande."));
             return true;
         }
+        if(args.length > 0) {
+            if(args[0].equalsIgnoreCase("reload")) {
+                customCraftModule.onReload();
+                sender.sendMessage(MessageService.colorize("&aLe module a été rechargé avec succès."));
+                return true;
+            }
+            sender.sendMessage(MessageService.colorize("&cUsage: /customcraft <reload> ou /customcraft"));
+            return true;
+        }
         Player player = (Player) sender;
         new MainMenu(customCraftModule).displayTo(player);
         return true;

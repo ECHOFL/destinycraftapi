@@ -9,10 +9,13 @@ import abc.fliqq.auroramc.core.util.ItemBuilder;
 import abc.fliqq.auroramc.core.util.menu.Button;
 import abc.fliqq.auroramc.core.util.menu.Menu;
 import abc.fliqq.auroramc.modules.customcraft.CustomCraft;
+import abc.fliqq.auroramc.modules.customcraft.CustomCraftModule;
 import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
 
 public class ListRecipesMenu extends Menu {
-    public ListRecipesMenu(CustomCraftManager craftManager) {
+    private CustomCraftManager craftManager;
+    public ListRecipesMenu(CustomCraftModule module) {
+        craftManager = module.getCustomCraftManager();
         setTitle("§bRecettes existantes");
         setSize(54); // Taille maximale pour afficher jusqu'à 54 recettes
 
@@ -23,21 +26,28 @@ public class ListRecipesMenu extends Menu {
             addButton(new Button(slot++) {
                 @Override
                 public ItemStack getItem() {
-                    return ItemBuilder.of(
-                        craft.getResult().getType(),
-                        craft.getResult().getItemMeta().getDisplayName(),
-                        craft.getResult().getItemMeta().getLore() != null
-                            ? craft.getResult().getItemMeta().getLore()
-                            : Collections.emptyList()
-                    ).make();
+                    return craft.getResult();
                 }
 
                 @Override
                 public void onClick(Player player) {
-                    player.sendMessage("§aVous avez sélectionné la recette : " + craft.getResult().getType());
-                    // TODO : Ajouter un menu pour afficher les détails ou modifier la recette
+                    player.sendMessage("§aVous avez sélectionné la recette : " + craft.getResult().getItemMeta().getDisplayName());
+                    new RecipeViewMenu(craft, craftManager, module).displayTo(player);
                 }
             });
         }
+
+        addButton(new Button(53) {
+            @Override
+            public ItemStack getItem() {
+                return ItemBuilder.of(Material.ARROW, "§cRetour", Collections.emptyList()).make();
+            }
+
+            @Override
+            public void onClick(Player player) {
+                // Retourner au menu précédent
+                new MainMenu(module).displayTo(player);
+            }
+        });
     }
 }

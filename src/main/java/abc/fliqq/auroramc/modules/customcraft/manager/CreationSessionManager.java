@@ -6,6 +6,7 @@ import java.util.UUID;
 
 import org.bukkit.entity.Player;
 
+import abc.fliqq.auroramc.core.util.LoggerUtil;
 import abc.fliqq.auroramc.modules.customcraft.CreationSession;
 
 public class CreationSessionManager {
@@ -13,14 +14,22 @@ public class CreationSessionManager {
 
     public static void addSession(Player player, CreationSession session) {
         sessions.put(player.getUniqueId(), session);
+        LoggerUtil.info("Session ajoutée pour le joueur : " + player.getName());
     }
 
     public static CreationSession getSession(Player player) {
-        return sessions.get(player.getUniqueId());
+        CreationSession session = sessions.get(player.getUniqueId());
+        LoggerUtil.info("Récupération de la session pour le joueur : " + player.getName() + " - Session trouvée : " + (session != null));
+        return session;
     }
 
     public static void removeSession(Player player) {
-        sessions.remove(player.getUniqueId());
+        if (sessions.containsKey(player.getUniqueId())) {
+            LoggerUtil.info("Suppression de la session pour le joueur : " + player.getName());
+            sessions.remove(player.getUniqueId());
+        } else {
+            LoggerUtil.warning("Tentative de suppression d'une session inexistante pour le joueur : " + player.getName());
+        }
     }
 
     public static boolean hasSession(Player player) {

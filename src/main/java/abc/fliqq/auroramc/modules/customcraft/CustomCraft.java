@@ -2,17 +2,30 @@
 package abc.fliqq.auroramc.modules.customcraft;
 
 import java.util.Map;
+import java.util.UUID;
 
 import org.bukkit.inventory.ItemStack;
 
+import lombok.Getter;
+import lombok.Setter;
+
 public class CustomCraft {
+    @Getter
+    private final String id;
     private final ItemStack result;
     private final String[] shape;
     private final Map<Character, ItemStack> ingredients;
     private final boolean unbreakable; // Nouveau champ
-
+    @Getter
+    @Setter
+    private boolean disableNaturalCraft = false; 
+    @Getter
+    @Setter
+    private boolean disableVillagerTrade = false;
+    
     public CustomCraft(ItemStack result, String[] shape, Map<Character, ItemStack> ingredients, boolean unbreakable) {
         this.result = result;
+        this.id= UUID.randomUUID().toString();
         this.shape = shape;
         this.ingredients = ingredients;
         this.unbreakable = unbreakable;

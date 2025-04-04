@@ -6,7 +6,7 @@ database:
     port: 3306
     database: auroramc
     username: admin
-    password: mtheo
+    password: pass
     ssl: false
   
 # Modules
@@ -14,7 +14,6 @@ modules:
   # Enable or disable modules
   customcraft: true
   duel: false
-  economy: false
   
 # Global
 settings:

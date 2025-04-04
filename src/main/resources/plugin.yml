@@ -10,5 +10,7 @@ commands:
     permission: auroramc.customcraft
     permission-message: You do not have permission to use this command.
     aliases: [cr, cc]
-
+  testcommand:
+    description: Donne une épée avec le flag HIDE_ATTRIBUTES.
+    usage: /testcommand
 

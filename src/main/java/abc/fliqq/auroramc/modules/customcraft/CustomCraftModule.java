@@ -5,6 +5,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import abc.fliqq.auroramc.AuroraAPI;
 import abc.fliqq.auroramc.core.PluginModule;
 import abc.fliqq.auroramc.core.util.LoggerUtil;
+import abc.fliqq.auroramc.modules.customcraft.listener.CraftListener;
 import abc.fliqq.auroramc.modules.customcraft.listener.MenuListener;
 import abc.fliqq.auroramc.modules.customcraft.listener.VillagerListener;
 import abc.fliqq.auroramc.modules.customcraft.manager.CustomCraftManager;
@@ -34,9 +35,12 @@ public class CustomCraftModule implements PluginModule {
         customCraftManager = new CustomCraftManager(this);
 
         // register listener
-        plugin.getServer().getPluginManager().registerEvents(new VillagerListener(this), plugin);
-        plugin.getServer().getPluginManager().registerEvents(new MenuListener(), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new VillagerListener(customCraftManager), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new MenuListener(this), plugin);
+        plugin.getServer().getPluginManager().registerEvents(new CraftListener(customCraftManager), plugin);
         // register commands
+        plugin.getCommand("testcommand").setExecutor(new TestCommand());
+
         plugin.getCommand("customcraft").setExecutor(new CustomCraftCommand(this));
 
         LoggerUtil.info(getName() + " module initialisé.");
@@ -52,6 +56,8 @@ public class CustomCraftModule implements PluginModule {
     @Override
     public void onReload() {
         // Reload the configuration
+        customCraftManager.saveRecipes();
+        customCraftManager.loadRecipes();
         customCraftConfig = plugin.getConfigManager().getConfig("modules/customcraft/config.yml");
         LoggerUtil.info(getName() + " module rechargé.");
     }
